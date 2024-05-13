@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>qtquickcontrols2.conf</file>
+        <file>MainToolBar.qml</file>
+        <file>AddPage.qml</file>
+        <file>BaseSCPage.qml</file>
+        <file>BaseSCDelegate.qml</file>
+        <file>PavilionsPage.qml</file>
+        <file>PavilionsDelegate.qml</file>
+        <file>DeletedSCPage.qml</file>
+    </qresource>
+</RCC>

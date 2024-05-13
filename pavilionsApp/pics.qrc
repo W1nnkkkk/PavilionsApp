@@ -1,0 +1,60 @@
+<RCC>
+    <qresource prefix="/Images">
+        <file>images/Image ТЦ/Авиапарк.jpg</file>
+        <file>images/Image ТЦ/Армада.jpg</file>
+        <file>images/Image ТЦ/Атриум.jpg</file>
+        <file>images/Image ТЦ/АфиМолл Сити.jpg</file>
+        <file>images/Image ТЦ/Ашан Сити Капитолий.jpg</file>
+        <file>images/Image ТЦ/Бутово Молл.jpg</file>
+        <file>images/Image ТЦ/Вегас.jpg</file>
+        <file>images/Image ТЦ/Вегас Кунцево.jpg</file>
+        <file>images/Image ТЦ/Весна.jpg</file>
+        <file>images/Image ТЦ/Времена Года.jpg</file>
+        <file>images/Image ТЦ/Гагаринский.jpg</file>
+        <file>images/Image ТЦ/Город Лефортово.jpg</file>
+        <file>images/Image ТЦ/Гранд.jpg</file>
+        <file>images/Image ТЦ/Гудзон.jpg</file>
+        <file>images/Image ТЦ/ГУМ.jpg</file>
+        <file>images/Image ТЦ/ЕвроПарк.jpg</file>
+        <file>images/Image ТЦ/Европейский.jpg</file>
+        <file>images/Image ТЦ/Золотой Вавилон Ростокино.jpg</file>
+        <file>images/Image ТЦ/Калейдоскоп.jpg</file>
+        <file>images/Image ТЦ/Красный Кит.jpg</file>
+        <file>images/Image ТЦ/Кунцево Плаза.jpg</file>
+        <file>images/Image ТЦ/Лужайка.jpg</file>
+        <file>images/Image ТЦ/Мега Белая Дача.jpg</file>
+        <file>images/Image ТЦ/Мегаполис.jpg</file>
+        <file>images/Image ТЦ/Мега Химки.jpg</file>
+        <file>images/Image ТЦ/Метрополис.jpg</file>
+        <file>images/Image ТЦ/Мозаика.jpg</file>
+        <file>images/Image ТЦ/Москва.jpg</file>
+        <file>images/Image ТЦ/Наш Гипермаркет.jpg</file>
+        <file>images/Image ТЦ/Новинский пассаж.jpg</file>
+        <file>images/Image ТЦ/Новомосковский.jpg</file>
+        <file>images/Image ТЦ/Облака.jpg</file>
+        <file>images/Image ТЦ/Океания.jpg</file>
+        <file>images/Image ТЦ/Отрада.jpg</file>
+        <file>images/Image ТЦ/Принц Плаза.jpg</file>
+        <file>images/Image ТЦ/Райкин Плаза.jpg</file>
+        <file>images/Image ТЦ/Реутов Парк.jpg</file>
+        <file>images/Image ТЦ/Ривьера.jpg</file>
+        <file>images/Image ТЦ/Рига Молл.jpg</file>
+        <file>images/Image ТЦ/Рио.jpg</file>
+        <file>images/Image ТЦ/Твой дом.jpg</file>
+        <file>images/Image ТЦ/Три Кита.jpg</file>
+        <file>images/Image ТЦ/Фестиваль.jpg</file>
+        <file>images/Image ТЦ/Филион.jpg</file>
+        <file>images/Image ТЦ/Ханой-Москва.jpg</file>
+        <file>images/Image ТЦ/Хорошо.jpg</file>
+        <file>images/Image ТЦ/Черемушки.jpg</file>
+        <file>images/Image ТЦ/Шереметьевский.jpg</file>
+        <file>images/Image ТЦ/Шоколад.jpg</file>
+        <file>images/Image ТЦ/Щука.jpg</file>
+        <file>images/Icons/addIcon.png</file>
+        <file>images/Icons/No_icon.png</file>
+        <file>images/Icons/pavilionsICon.png</file>
+        <file>images/Icons/refreshIcon.png</file>
+        <file>images/Icons/SCIcon.png</file>
+        <file>images/Icons/trashIcon.png</file>
+    </qresource>
+</RCC>
