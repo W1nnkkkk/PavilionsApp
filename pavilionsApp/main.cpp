@@ -16,12 +16,15 @@ int main(int argc, char *argv[])
     SCModel* scModel = new SCModel;
     SCModel* deletedSCModel = new SCModel;
     PavilionsModel* pavilionModel = new PavilionsModel;
+    PavilionsModel* rentedPavilionsModel = new PavilionsModel;
     CityModel* cityModel = new CityModel;
 
     scModel->setModelQuery("SELECT * FROM sc WHERE sc_status != 'Удален' ORDER BY name, sc_status");
     deletedSCModel->setModelQuery("SELECT * FROM sc WHERE sc_status = 'Удален' ORDER BY name, sc_status");
     pavilionModel->setModelQuery("SELECT pv.*, sc.sc_status FROM public.pavilions pv JOIN sc ON pv.sc_name = sc.name "
-                                 "WHERE sc.sc_status != 'Удален'");
+                                 "WHERE sc.sc_status != 'Удален' AND pav_status = 'Свободен'");
+    rentedPavilionsModel->setModelQuery("SELECT pv.*, sc.sc_status FROM public.pavilions pv JOIN sc ON pv.sc_name = sc.name "
+                                         "WHERE sc.sc_status != 'Удален' AND pav_status != 'Свободен'");
     cityModel->setModelQuery("SELECT 'Все' AS \"city\" UNION SELECT DISTINCT city FROM sc ORDER BY city");
 
     QQmlApplicationEngine engine;
@@ -35,6 +38,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("SCModel", scModel);
     engine.rootContext()->setContextProperty("DeletedSCModel", deletedSCModel);
     engine.rootContext()->setContextProperty("PavilionModel", pavilionModel);
+    engine.rootContext()->setContextProperty("RentedPavilionModel", rentedPavilionsModel);
     engine.rootContext()->setContextProperty("CityModel", cityModel);
 
     engine.load(url);

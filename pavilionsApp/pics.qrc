@@ -56,5 +56,9 @@
         <file>images/Icons/refreshIcon.png</file>
         <file>images/Icons/SCIcon.png</file>
         <file>images/Icons/trashIcon.png</file>
+        <file>images/Icons/deletePhotoIcon.png</file>
+        <file>images/Icons/findIcon.png</file>
+        <file>images/Icons/rentIcon.png</file>
+        <file>images/Icons/noRentIcon.png</file>
     </qresource>
 </RCC>

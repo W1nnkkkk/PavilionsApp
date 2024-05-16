@@ -727,17 +727,23 @@ qrc_qml.cpp: ../pavilionsApp/qml.qrc \
 		../pavilionsApp/PavilionsPage.qml \
 		../pavilionsApp/AddPage.qml \
 		../pavilionsApp/PavilionsDelegate.qml \
+		../pavilionsApp/RentDialog.qml \
 		../pavilionsApp/qtquickcontrols2.conf \
 		../pavilionsApp/DeletedSCPage.qml \
+		../pavilionsApp/RentedPavilions.qml \
 		../pavilionsApp/main.qml \
 		../pavilionsApp/BaseSCPage.qml
 	/home/kirill/Qt5.12.12/5.12.12/gcc_64/bin/rcc -name qml ../pavilionsApp/qml.qrc -o qrc_qml.cpp
 
 qrc_pics.cpp: ../pavilionsApp/pics.qrc \
 		../../../Qt5.12.12/5.12.12/gcc_64/bin/rcc \
+		../pavilionsApp/images/Icons/deletePhotoIcon.png \
+		../pavilionsApp/images/Icons/noRentIcon.png \
 		../pavilionsApp/images/Icons/refreshIcon.png \
 		../pavilionsApp/images/Icons/No_icon.png \
 		../pavilionsApp/images/Icons/SCIcon.png \
+		../pavilionsApp/images/Icons/rentIcon.png \
+		../pavilionsApp/images/Icons/findIcon.png \
 		../pavilionsApp/images/Icons/pavilionsICon.png \
 		../pavilionsApp/images/Icons/trashIcon.png \
 		../pavilionsApp/images/Icons/addIcon.png \
@@ -982,7 +988,15 @@ abstrucquerytmodel.o: ../pavilionsApp/abstrucquerytmodel.cpp ../pavilionsApp/abs
 		../../../Qt5.12.12/5.12.12/gcc_64/include/QtSql/qsqlquery.h \
 		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/QDebug \
 		../../../Qt5.12.12/5.12.12/gcc_64/include/QtSql/QSqlError \
-		../../../Qt5.12.12/5.12.12/gcc_64/include/QtSql/qsqlerror.h
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtSql/qsqlerror.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/QResource \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qresource.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/QDirIterator \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qdiriterator.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qdir.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qfileinfo.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qfile.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qfiledevice.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o abstrucquerytmodel.o ../pavilionsApp/abstrucquerytmodel.cpp
 
 citymodel.o: ../pavilionsApp/citymodel.cpp ../pavilionsApp/citymodel.h \

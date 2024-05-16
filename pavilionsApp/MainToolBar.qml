@@ -20,6 +20,8 @@ ToolBar {
             Layout.alignment: Qt.AlignCenter
             icon.source: "qrc:/Images/images/Icons/pavilionsICon.png"
             onClicked: {
+                PavilionModel.setModelQuery("SELECT pv.*, sc.sc_status FROM public.pavilions pv JOIN sc ON pv.sc_name = sc.name
+                                 WHERE sc.sc_status != 'Удален' AND pav_status = 'Свободен'");
                 page2.visible = true;
                 pagePush(mainView, page2);
             }
@@ -39,6 +41,17 @@ ToolBar {
             icon.source: "qrc:/Images/images/Icons/addIcon.png"
             onClicked: {
                 pagePush(mainView, page4);
+            }
+        }
+
+        ToolButton {
+            Layout.alignment: Qt.AlignCenter
+            icon.source: "qrc:/Images/images/Icons/noRentIcon.png"
+            onClicked: {
+                RentedPavilionModel.setModelQuery("SELECT pv.*, sc.sc_status FROM public.pavilions pv JOIN sc ON pv.sc_name = sc.name
+                                 WHERE sc.sc_status != 'Удален' AND pav_status != 'Свободен' AND pav_status != 'Удален'
+                                 ORDER BY pv.sc_name");
+                pagePush(mainView, page5);
             }
         }
     }

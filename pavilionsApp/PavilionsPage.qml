@@ -36,6 +36,64 @@ Item {
                 scValueAddedCoof: "Коофицент добавочной стоимости: " + model.value_added_coof
                 square: "Плошадь: " + model.square
                 costPerSquare : "Стоимость за кв.м: " + model.cost_per_square
+
+                Button {
+                    id: rentButton
+                    anchors {
+                        right: parent.right
+                        rightMargin: 40
+                        verticalCenter: parent.verticalCenter
+                    }
+                    icon.source: "qrc:/Images/images/Icons/rentIcon.png"
+                    icon.height: 140
+                    onClicked: {
+                        rentDialog.visible = true;
+                    }
+                }
+
+
+                RentDialog {
+                    id: rentDialog
+                    visible: false
+                }
+            }
+        }
+
+        Popup {
+            id: popup
+            width: 150
+            height: 50
+            x: (parent.width - width) / 2
+            y: parent.height - height - 20
+
+            contentItem: Item {
+                width: parent.width
+                height: parent.height
+                Rectangle {
+                    id: mainItem
+                    color: "white"
+                    radius: Math.min(width, height) / 2
+                    width: parent.width
+                    height: parent.height
+                    Text {
+                        id: popupText
+                        anchors.fill: parent
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                    }
+                }
+            }
+
+            Timer {
+                id: popupTimer
+                interval: 2500
+                onTriggered: popup.close()
+            }
+
+            Behavior on opacity {
+                NumberAnimation {
+                    duration: 700
+                }
             }
         }
     }

@@ -11,7 +11,8 @@ class AbstrucQuerytModel : public QSqlQueryModel
 public:
     AbstrucQuerytModel(QObject* parent = nullptr);
     Q_INVOKABLE void setModelQuery(const QString& query);
-    Q_INVOKABLE void setCustomQuery(const QString& query, const QJSValue &binds, const QJSValue &values);
+    Q_INVOKABLE void setModelQuery(const QString& query, const QJSValue &binds, const QJSValue &values);
+    Q_INVOKABLE bool setCustomQuery(const QString& query, const QJSValue &binds, const QJSValue &values);
 
     // QAbstractItemModel interface
 public:

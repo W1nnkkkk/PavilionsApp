@@ -19,6 +19,8 @@ Item {
         color: "lightsteelblue"
         clip: true
 
+
+
         Image {
             id: photo
             anchors.left: parent.left

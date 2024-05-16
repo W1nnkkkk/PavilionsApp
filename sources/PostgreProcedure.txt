@@ -1,0 +1,21 @@
+CREATE PROCEDURE public."PavilionsRent"(id_ten integer, sc_nam character varying(40), 
+	id_emp integer, pav_n character varying(5), pav_stat character varying(15), date_b date, date_e date)
+LANGUAGE 'plpgsql'
+AS $BODY$
+DECLARE id_re integer;
+BEGIN
+	SELECT id_rent INTO id_re FROM rent
+    ORDER BY id_rent DESC
+    LIMIT 1;
+    
+    id_re := COALESCE(id_re, 0) + 1;
+	
+	UPDATE pavilions
+	SET pav_status = pav_stat
+	WHERE sc_name = sc_nam AND pavilion_num = pav_n;
+
+	INSERT INTO public.rent(
+	id_rent, id_tenat, sc_name, id_employee, pavilion_num, pav_status, date_begin, date_end)
+	VALUES (id_re, id_ten, sc_nam, id_emp, pav_n, pav_stat, date_b, date_e); 
+END;
+$BODY$;

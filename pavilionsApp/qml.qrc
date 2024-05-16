@@ -9,5 +9,7 @@
         <file>PavilionsPage.qml</file>
         <file>PavilionsDelegate.qml</file>
         <file>DeletedSCPage.qml</file>
+        <file>RentDialog.qml</file>
+        <file>RentedPavilions.qml</file>
     </qresource>
 </RCC>

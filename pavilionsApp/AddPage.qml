@@ -168,6 +168,13 @@ Rectangle {
                 border.width: 1
                 color: dropArea.isEntered ? "grey" : "lightgrey"
 
+                Behavior on color {
+                    ColorAnimation {
+                        id: colorAnimation
+                        duration: 250 // Длительность анимации в миллисекундах
+                    }
+                }
+
                 DropArea {
                     id: dropArea
                     anchors.fill: parent
@@ -194,6 +201,8 @@ Rectangle {
                         dropArea.dropText = "Фото успешно загружено!"
                         dropArea.enabled = false;
                         isEntered = false;
+                        colorAnimation.start();
+                        deleteButton.visible = true;
                     }
 
                     Text {
@@ -204,10 +213,26 @@ Rectangle {
                     }
                 }
 
-                Behavior on color {
-                    ColorAnimation {
-                        id: colorAnimation
-                        duration: 250 // Длительность анимации в миллисекундах
+                Button {
+                    id: deleteButton
+                    visible: false
+                    anchors.top: parent.top
+                    anchors.left: parent.left
+                    anchors.margins: 2
+                    icon.source: "qrc:/Images/images/Icons/deletePhotoIcon.png"
+                    icon.color: "red"
+
+                    background: Rectangle {
+                        color: fropRect.color
+                    }
+
+                    onClicked: {
+                        globalData.path = "";
+                        dropArea.enabled = true;
+                        dropArea.dropText = "Перетащите файл c фото сюда";
+                        dropArea.isEntered = false;
+                        colorAnimation.start();
+                        visible = false;
                     }
                 }
             }
@@ -264,19 +289,25 @@ Rectangle {
                         var values = [tcName.trim(),
                                       status, pavilions, city.trim(), cost, coefficient / 10, floors, nicePath];
 
-                        SCModel.setCustomQuery("INSERT INTO public.sc(
+                        if (SCModel.setCustomQuery("INSERT INTO public.sc(
                             name, sc_status, pavilions_count, city, cost, value_added_coof, floor_count, photo)
-                            VALUES (:name, :status, :pav_count, :city, :cost, :coef, :floors, :photo);", binds, values);
-                        CityModel.setModelQuery("SELECT 'Все' AS \"city\" UNION SELECT DISTINCT city FROM sc ORDER BY city");
-                        filterSC(page1.cityBoxes.currentText);
+                            VALUES (:name, :status, :pav_count, :city, :cost, :coef, :floors, :photo);", binds, values))
+                        {
+                            CityModel.setModelQuery("SELECT 'Все' AS \"city\" UNION SELECT DISTINCT city FROM sc ORDER BY city");
+                            filterSC(page1.cityBoxes.currentText);
 
-                        popupText.text = "ТЦ Создан!";
-                        nameTextField.text = "";
-                        cityTextField.text = "";
-                        costTextField.text = "";
-                        globalData.path = "";
-                        dropArea.enabled = true;
-                        dropArea.dropText = "Перетащите файл c фото сюда";
+                            popupText.text = "ТЦ Создан!";
+                            nameTextField.text = "";
+                            cityTextField.text = "";
+                            costTextField.text = "";
+                            globalData.path = "";
+                            dropArea.enabled = true;
+                            dropArea.dropText = "Перетащите файл c фото сюда";
+                        }
+                        else {
+                            popupText.text = "Что-то пошло не так!";
+                        }
+
                     }
                     else {
                         popupText.text = "Что-то пошло не так!";
@@ -329,7 +360,7 @@ Rectangle {
 
     Behavior on opacity {
         NumberAnimation {
-            duration: 700 // Продолжительность анимации в миллисекундах
+            duration: 700
         }
     }
 }

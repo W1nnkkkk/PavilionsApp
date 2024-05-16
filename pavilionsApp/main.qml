@@ -37,6 +37,11 @@ ApplicationWindow {
         id: page3
     }
 
+    RentedPavilions {
+        id: page5
+        visible: false
+    }
+
     AddPage {
         id: page4
         visible: false

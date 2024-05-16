@@ -37,16 +37,27 @@ Item {
                 sccost : "Стоимость постройки: " + model.cost + " руб."
                 scvalueaddedcoof : "Коофицент добавочной стоимости: " + model.value_added_coof
 
-                Button {
-                    icon.source: "qrc:/Images/images/Icons/refreshIcon.png"
-                    icon.color: "green"
+                RowLayout {
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.right: parent.right
                     anchors.rightMargin: 20
-                    onClicked: {
-                        messageDialog.visible = true;
+                    Button {
+                        icon.source: "qrc:/Images/images/Icons/refreshIcon.png"
+                        icon.color: "green"
+                        onClicked: {
+                            messageDialog.visible = true;
+                        }
+                    }
+                    Button {
+                        icon.source: "qrc:/Images/images/Icons/trashIcon.png"
+                        icon.color: "red"
+                        onClicked: {
+                            deleteDialog.visible = true;
+                        }
                     }
                 }
+
+
                 MessageDialog {
                     id: messageDialog
                     title: "Вы уверенны?"
@@ -58,6 +69,22 @@ Item {
                         var binds = [":name", ":status", ":city"];
                         var values = [model.name, statuses[getRandomInt(3)], model.city];
                         SCModel.setCustomQuery("UPDATE sc SET sc_status = :status WHERE name = :name AND city = :city",
+                                               binds, values);
+                        filterSC(page1.cityBoxes.currentText);
+                        updateDeletedSC();
+                    }
+                }
+
+                MessageDialog {
+                    id: deleteDialog
+                    title: "Вы уверенны?"
+                    text: "Вы уверенны что хотите полностью удалить '" + model.name + "'?"
+                    standardButtons: StandardButton.Yes | StandardButton.No
+                    icon: StandardIcon.Question
+                    onYes: {
+                        var binds = [":name", ":city"];
+                        var values = [model.name, model.city];
+                        SCModel.setCustomQuery("DELETE FROM sc WHERE name = :name AND city = :city",
                                                binds, values);
                         filterSC(page1.cityBoxes.currentText);
                         updateDeletedSC();
