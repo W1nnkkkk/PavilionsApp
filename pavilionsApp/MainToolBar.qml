@@ -54,5 +54,13 @@ ToolBar {
                 pagePush(mainView, page5);
             }
         }
+
+        ToolButton {
+            Layout.alignment: Qt.AlignCenter
+            icon.source: "qrc:/Images/images/Icons/documentIcon.png"
+            onClicked: {
+                pagePush(mainView, page6);
+            }
+        }
     }
 }

@@ -1,11 +1,11 @@
 #include "abstrucquerytmodel.h"
 #include "databasedescriptor.h"
+#include "odfcreator.h"
+#include <thread>
 #include <QJSValueIterator>
 #include <QSqlQuery>
 #include <QDebug>
 #include <QSqlError>
-#include <QResource>
-#include <QDirIterator>
 
 AbstrucQuerytModel::AbstrucQuerytModel(QObject* parent) : QSqlQueryModel(parent)
 {
@@ -46,6 +46,8 @@ void AbstrucQuerytModel::setModelQuery(const QString &query, const QJSValue &bin
             valuesVector.append(value);
         }
     }
+
+
 
     QSqlQuery req(DataBaseDescriptor::getDB());
     req.prepare(query);
@@ -100,6 +102,57 @@ bool AbstrucQuerytModel::setCustomQuery(const QString &query, const QJSValue &bi
     {
         req.bindValue(bindsVector[i], valuesVector[i]);
     }
+
+    if (!req.exec()) {
+        qDebug() << req.lastError().text();
+        return false;
+    }
+
+    return true;
+}
+
+bool AbstrucQuerytModel::setCustomQuery(const QString &query, const QJSValue &binds, const QJSValue &values, int docNum)
+{
+    QVector<QString> bindsVector;
+    QVector<QVariant> valuesVector;
+
+    if (binds.isArray()) {
+        QJSValueIterator it(binds);
+        while (it.hasNext()) {
+            it.next();
+            QString bind = it.value().toString();
+            bindsVector.append(bind);
+        }
+    }
+
+    if (values.isArray()) {
+        QJSValueIterator it(values);
+        while (it.hasNext()) {
+            it.next();
+            QVariant value = it.value().toVariant();
+            valuesVector.append(value);
+        }
+    }
+
+    std::thread th([&]() {
+       OdfCreator::createOdfByPath("./RentContract/ДоговорАренды" + valuesVector[3].toString() + ".odt",
+                                   valuesVector[0].toString(),
+                                   valuesVector[1].toString(),
+                                   valuesVector[2].toString(),
+                                   valuesVector[3].toString(),
+                                   valuesVector[6].toString());
+    });
+
+    QSqlQuery req(DataBaseDescriptor::getDB());
+    req.prepare(query);
+
+
+    for (int i = 0; i < bindsVector.size(); i++)
+    {
+        req.bindValue(bindsVector[i], valuesVector[i]);
+    }
+
+    th.join();
 
     if (!req.exec()) {
         qDebug() << req.lastError().text();

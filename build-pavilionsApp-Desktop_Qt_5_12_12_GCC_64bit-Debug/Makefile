@@ -40,7 +40,7 @@ DISTNAME      = pavilionsApp1.0.0
 DISTDIR = /home/kirill/qtProjects/ekz/build-pavilionsApp-Desktop_Qt_5_12_12_GCC_64bit-Debug/.tmp/pavilionsApp1.0.0
 LINK          = g++
 LFLAGS        = -Wl,-rpath,/home/kirill/Qt5.12.12/5.12.12/gcc_64/lib
-LIBS          = $(SUBLIBS) /home/kirill/Qt5.12.12/5.12.12/gcc_64/lib/libQt5Quick.so /home/kirill/Qt5.12.12/5.12.12/gcc_64/lib/libQt5Gui.so /home/kirill/Qt5.12.12/5.12.12/gcc_64/lib/libQt5Qml.so /home/kirill/Qt5.12.12/5.12.12/gcc_64/lib/libQt5Network.so /home/kirill/Qt5.12.12/5.12.12/gcc_64/lib/libQt5Sql.so /home/kirill/Qt5.12.12/5.12.12/gcc_64/lib/libQt5Core.so -lGL -lpthread   
+LIBS          = $(SUBLIBS) -lzip /home/kirill/Qt5.12.12/5.12.12/gcc_64/lib/libQt5Quick.so /home/kirill/Qt5.12.12/5.12.12/gcc_64/lib/libQt5Gui.so /home/kirill/Qt5.12.12/5.12.12/gcc_64/lib/libQt5Qml.so /home/kirill/Qt5.12.12/5.12.12/gcc_64/lib/libQt5Network.so /home/kirill/Qt5.12.12/5.12.12/gcc_64/lib/libQt5Sql.so /home/kirill/Qt5.12.12/5.12.12/gcc_64/lib/libQt5Core.so -lGL -lpthread   
 AR            = ar cqs
 RANLIB        = 
 SED           = sed
@@ -55,20 +55,30 @@ OBJECTS_DIR   = ./
 SOURCES       = ../pavilionsApp/abstrucquerytmodel.cpp \
 		../pavilionsApp/citymodel.cpp \
 		../pavilionsApp/databasedescriptor.cpp \
+		../pavilionsApp/filemodel.cpp \
+		../pavilionsApp/fileopener.cpp \
 		../pavilionsApp/main.cpp \
+		../pavilionsApp/odfcreator.cpp \
 		../pavilionsApp/pavilionsmodel.cpp \
 		../pavilionsApp/scmodel.cpp qrc_qml.cpp \
 		qrc_pics.cpp \
-		moc_abstrucquerytmodel.cpp
+		moc_abstrucquerytmodel.cpp \
+		moc_filemodel.cpp \
+		moc_fileopener.cpp
 OBJECTS       = abstrucquerytmodel.o \
 		citymodel.o \
 		databasedescriptor.o \
+		filemodel.o \
+		fileopener.o \
 		main.o \
+		odfcreator.o \
 		pavilionsmodel.o \
 		scmodel.o \
 		qrc_qml.o \
 		qrc_pics.o \
-		moc_abstrucquerytmodel.o
+		moc_abstrucquerytmodel.o \
+		moc_filemodel.o \
+		moc_fileopener.o
 DIST          = ../../../Qt5.12.12/5.12.12/gcc_64/mkspecs/features/spec_pre.prf \
 		../../../Qt5.12.12/5.12.12/gcc_64/mkspecs/common/unix.conf \
 		../../../Qt5.12.12/5.12.12/gcc_64/mkspecs/common/linux.conf \
@@ -265,11 +275,17 @@ DIST          = ../../../Qt5.12.12/5.12.12/gcc_64/mkspecs/features/spec_pre.prf 
 		../pavilionsApp/pavilionsApp.pro ../pavilionsApp/abstrucquerytmodel.h \
 		../pavilionsApp/citymodel.h \
 		../pavilionsApp/databasedescriptor.h \
+		../pavilionsApp/filemodel.h \
+		../pavilionsApp/fileopener.h \
+		../pavilionsApp/odfcreator.h \
 		../pavilionsApp/pavilionsmodel.h \
 		../pavilionsApp/scmodel.h ../pavilionsApp/abstrucquerytmodel.cpp \
 		../pavilionsApp/citymodel.cpp \
 		../pavilionsApp/databasedescriptor.cpp \
+		../pavilionsApp/filemodel.cpp \
+		../pavilionsApp/fileopener.cpp \
 		../pavilionsApp/main.cpp \
+		../pavilionsApp/odfcreator.cpp \
 		../pavilionsApp/pavilionsmodel.cpp \
 		../pavilionsApp/scmodel.cpp
 QMAKE_TARGET  = pavilionsApp
@@ -692,8 +708,8 @@ distdir: FORCE
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents ../pavilionsApp/qml.qrc ../pavilionsApp/pics.qrc $(DISTDIR)/
 	$(COPY_FILE) --parents ../../../Qt5.12.12/5.12.12/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../pavilionsApp/abstrucquerytmodel.h ../pavilionsApp/citymodel.h ../pavilionsApp/databasedescriptor.h ../pavilionsApp/pavilionsmodel.h ../pavilionsApp/scmodel.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../pavilionsApp/abstrucquerytmodel.cpp ../pavilionsApp/citymodel.cpp ../pavilionsApp/databasedescriptor.cpp ../pavilionsApp/main.cpp ../pavilionsApp/pavilionsmodel.cpp ../pavilionsApp/scmodel.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../pavilionsApp/abstrucquerytmodel.h ../pavilionsApp/citymodel.h ../pavilionsApp/databasedescriptor.h ../pavilionsApp/filemodel.h ../pavilionsApp/fileopener.h ../pavilionsApp/odfcreator.h ../pavilionsApp/pavilionsmodel.h ../pavilionsApp/scmodel.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../pavilionsApp/abstrucquerytmodel.cpp ../pavilionsApp/citymodel.cpp ../pavilionsApp/databasedescriptor.cpp ../pavilionsApp/filemodel.cpp ../pavilionsApp/fileopener.cpp ../pavilionsApp/main.cpp ../pavilionsApp/odfcreator.cpp ../pavilionsApp/pavilionsmodel.cpp ../pavilionsApp/scmodel.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -724,6 +740,7 @@ qrc_qml.cpp: ../pavilionsApp/qml.qrc \
 		../../../Qt5.12.12/5.12.12/gcc_64/bin/rcc \
 		../pavilionsApp/MainToolBar.qml \
 		../pavilionsApp/BaseSCDelegate.qml \
+		../pavilionsApp/DocumentPage.qml \
 		../pavilionsApp/PavilionsPage.qml \
 		../pavilionsApp/AddPage.qml \
 		../pavilionsApp/PavilionsDelegate.qml \
@@ -740,9 +757,11 @@ qrc_pics.cpp: ../pavilionsApp/pics.qrc \
 		../pavilionsApp/images/Icons/deletePhotoIcon.png \
 		../pavilionsApp/images/Icons/noRentIcon.png \
 		../pavilionsApp/images/Icons/refreshIcon.png \
+		../pavilionsApp/images/Icons/documentIcon.png \
 		../pavilionsApp/images/Icons/No_icon.png \
 		../pavilionsApp/images/Icons/SCIcon.png \
 		../pavilionsApp/images/Icons/mainIcon.png \
+		../pavilionsApp/images/Icons/file-icon.png \
 		../pavilionsApp/images/Icons/rentIcon.png \
 		../pavilionsApp/images/Icons/findIcon.png \
 		../pavilionsApp/images/Icons/pavilionsICon.png \
@@ -806,9 +825,9 @@ compiler_moc_predefs_clean:
 moc_predefs.h: ../../../Qt5.12.12/5.12.12/gcc_64/mkspecs/features/data/dummy.cpp
 	g++ -pipe -g -std=gnu++11 -Wall -W -dM -E -o moc_predefs.h ../../../Qt5.12.12/5.12.12/gcc_64/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_abstrucquerytmodel.cpp
+compiler_moc_header_make_all: moc_abstrucquerytmodel.cpp moc_filemodel.cpp moc_fileopener.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_abstrucquerytmodel.cpp
+	-$(DEL_FILE) moc_abstrucquerytmodel.cpp moc_filemodel.cpp moc_fileopener.cpp
 moc_abstrucquerytmodel.cpp: ../pavilionsApp/abstrucquerytmodel.h \
 		../../../Qt5.12.12/5.12.12/gcc_64/include/QtSql/QSqlQueryModel \
 		../../../Qt5.12.12/5.12.12/gcc_64/include/QtSql/qsqlquerymodel.h \
@@ -889,6 +908,139 @@ moc_abstrucquerytmodel.cpp: ../pavilionsApp/abstrucquerytmodel.h \
 		moc_predefs.h \
 		../../../Qt5.12.12/5.12.12/gcc_64/bin/moc
 	/home/kirill/Qt5.12.12/5.12.12/gcc_64/bin/moc $(DEFINES) --include /home/kirill/qtProjects/ekz/build-pavilionsApp-Desktop_Qt_5_12_12_GCC_64bit-Debug/moc_predefs.h -I/home/kirill/Qt5.12.12/5.12.12/gcc_64/mkspecs/linux-g++ -I/home/kirill/qtProjects/ekz/pavilionsApp -I/home/kirill/Qt5.12.12/5.12.12/gcc_64/include -I/home/kirill/Qt5.12.12/5.12.12/gcc_64/include/QtQuick -I/home/kirill/Qt5.12.12/5.12.12/gcc_64/include/QtGui -I/home/kirill/Qt5.12.12/5.12.12/gcc_64/include/QtQml -I/home/kirill/Qt5.12.12/5.12.12/gcc_64/include/QtNetwork -I/home/kirill/Qt5.12.12/5.12.12/gcc_64/include/QtSql -I/home/kirill/Qt5.12.12/5.12.12/gcc_64/include/QtCore -I. -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../pavilionsApp/abstrucquerytmodel.h -o moc_abstrucquerytmodel.cpp
+
+moc_filemodel.cpp: ../pavilionsApp/filemodel.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/QAbstractListModel \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qabstractitemmodel.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qvariant.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qatomic.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qglobal.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qconfig.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qtcore-config.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qsystemdetection.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qprocessordetection.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qcompilerdetection.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qtypeinfo.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qsysinfo.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qlogging.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qflags.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qglobalstatic.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qmutex.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qnumeric.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qversiontagging.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qbasicatomic.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qgenericatomic.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qatomic_cxx11.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qatomic_msvc.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qbytearray.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qrefcount.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qnamespace.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qarraydata.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qlist.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qalgorithms.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qiterator.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qhashfunctions.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstring.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qchar.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstringliteral.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstringalgorithms.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstringview.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstringbuilder.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qpair.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qbytearraylist.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstringlist.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qregexp.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstringmatcher.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qmetatype.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qvarlengtharray.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qcontainerfwd.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qobjectdefs.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qmap.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qdebug.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qhash.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qtextstream.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qiodevice.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qobject.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qcoreevent.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qscopedpointer.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qobject_impl.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qlocale.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qshareddata.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qvector.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qpoint.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qset.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qcontiguouscache.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qsharedpointer.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/QFileSystemWatcher \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qfilesystemwatcher.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/QDir \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qdir.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qfileinfo.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qfile.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qfiledevice.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/QFileInfoList \
+		moc_predefs.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/bin/moc
+	/home/kirill/Qt5.12.12/5.12.12/gcc_64/bin/moc $(DEFINES) --include /home/kirill/qtProjects/ekz/build-pavilionsApp-Desktop_Qt_5_12_12_GCC_64bit-Debug/moc_predefs.h -I/home/kirill/Qt5.12.12/5.12.12/gcc_64/mkspecs/linux-g++ -I/home/kirill/qtProjects/ekz/pavilionsApp -I/home/kirill/Qt5.12.12/5.12.12/gcc_64/include -I/home/kirill/Qt5.12.12/5.12.12/gcc_64/include/QtQuick -I/home/kirill/Qt5.12.12/5.12.12/gcc_64/include/QtGui -I/home/kirill/Qt5.12.12/5.12.12/gcc_64/include/QtQml -I/home/kirill/Qt5.12.12/5.12.12/gcc_64/include/QtNetwork -I/home/kirill/Qt5.12.12/5.12.12/gcc_64/include/QtSql -I/home/kirill/Qt5.12.12/5.12.12/gcc_64/include/QtCore -I. -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../pavilionsApp/filemodel.h -o moc_filemodel.cpp
+
+moc_fileopener.cpp: ../pavilionsApp/fileopener.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/QObject \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qobject.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qobjectdefs.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qnamespace.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qglobal.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qconfig.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qtcore-config.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qsystemdetection.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qprocessordetection.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qcompilerdetection.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qtypeinfo.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qsysinfo.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qlogging.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qflags.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qatomic.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qbasicatomic.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qgenericatomic.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qatomic_cxx11.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qatomic_msvc.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qglobalstatic.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qmutex.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qnumeric.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qversiontagging.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstring.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qchar.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qbytearray.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qrefcount.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qarraydata.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstringliteral.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstringalgorithms.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstringview.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstringbuilder.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qlist.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qalgorithms.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qiterator.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qhashfunctions.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qpair.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qbytearraylist.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstringlist.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qregexp.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstringmatcher.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qcoreevent.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qscopedpointer.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qmetatype.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qvarlengtharray.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qcontainerfwd.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qobject_impl.h \
+		moc_predefs.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/bin/moc
+	/home/kirill/Qt5.12.12/5.12.12/gcc_64/bin/moc $(DEFINES) --include /home/kirill/qtProjects/ekz/build-pavilionsApp-Desktop_Qt_5_12_12_GCC_64bit-Debug/moc_predefs.h -I/home/kirill/Qt5.12.12/5.12.12/gcc_64/mkspecs/linux-g++ -I/home/kirill/qtProjects/ekz/pavilionsApp -I/home/kirill/Qt5.12.12/5.12.12/gcc_64/include -I/home/kirill/Qt5.12.12/5.12.12/gcc_64/include/QtQuick -I/home/kirill/Qt5.12.12/5.12.12/gcc_64/include/QtGui -I/home/kirill/Qt5.12.12/5.12.12/gcc_64/include/QtQml -I/home/kirill/Qt5.12.12/5.12.12/gcc_64/include/QtNetwork -I/home/kirill/Qt5.12.12/5.12.12/gcc_64/include/QtSql -I/home/kirill/Qt5.12.12/5.12.12/gcc_64/include/QtCore -I. -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../pavilionsApp/fileopener.h -o moc_fileopener.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
@@ -983,21 +1135,14 @@ abstrucquerytmodel.o: ../pavilionsApp/abstrucquerytmodel.cpp ../pavilionsApp/abs
 		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/QObject \
 		../pavilionsApp/databasedescriptor.h \
 		../../../Qt5.12.12/5.12.12/gcc_64/include/QtSql/QSqlDatabase \
+		../pavilionsApp/odfcreator.h \
 		../../../Qt5.12.12/5.12.12/gcc_64/include/QtQml/QJSValueIterator \
 		../../../Qt5.12.12/5.12.12/gcc_64/include/QtQml/qjsvalueiterator.h \
 		../../../Qt5.12.12/5.12.12/gcc_64/include/QtSql/QSqlQuery \
 		../../../Qt5.12.12/5.12.12/gcc_64/include/QtSql/qsqlquery.h \
 		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/QDebug \
 		../../../Qt5.12.12/5.12.12/gcc_64/include/QtSql/QSqlError \
-		../../../Qt5.12.12/5.12.12/gcc_64/include/QtSql/qsqlerror.h \
-		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/QResource \
-		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qresource.h \
-		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/QDirIterator \
-		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qdiriterator.h \
-		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qdir.h \
-		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qfileinfo.h \
-		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qfile.h \
-		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qfiledevice.h
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtSql/qsqlerror.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o abstrucquerytmodel.o ../pavilionsApp/abstrucquerytmodel.cpp
 
 citymodel.o: ../pavilionsApp/citymodel.cpp ../pavilionsApp/citymodel.h \
@@ -1153,6 +1298,152 @@ databasedescriptor.o: ../pavilionsApp/databasedescriptor.cpp ../pavilionsApp/dat
 		../../../Qt5.12.12/5.12.12/gcc_64/include/QtSql/qsqlerror.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o databasedescriptor.o ../pavilionsApp/databasedescriptor.cpp
 
+filemodel.o: ../pavilionsApp/filemodel.cpp ../pavilionsApp/filemodel.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/QAbstractListModel \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qabstractitemmodel.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qvariant.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qatomic.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qglobal.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qconfig.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qtcore-config.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qsystemdetection.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qprocessordetection.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qcompilerdetection.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qtypeinfo.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qsysinfo.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qlogging.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qflags.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qglobalstatic.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qmutex.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qnumeric.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qversiontagging.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qbasicatomic.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qgenericatomic.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qatomic_cxx11.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qatomic_msvc.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qbytearray.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qrefcount.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qnamespace.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qarraydata.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qlist.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qalgorithms.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qiterator.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qhashfunctions.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstring.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qchar.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstringliteral.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstringalgorithms.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstringview.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstringbuilder.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qpair.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qbytearraylist.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstringlist.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qregexp.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstringmatcher.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qmetatype.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qvarlengtharray.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qcontainerfwd.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qobjectdefs.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qmap.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qdebug.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qhash.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qtextstream.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qiodevice.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qobject.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qcoreevent.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qscopedpointer.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qobject_impl.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qlocale.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qshareddata.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qvector.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qpoint.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qset.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qcontiguouscache.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qsharedpointer.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/QFileSystemWatcher \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qfilesystemwatcher.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/QDir \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qdir.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qfileinfo.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qfile.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qfiledevice.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/QFileInfoList
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o filemodel.o ../pavilionsApp/filemodel.cpp
+
+fileopener.o: ../pavilionsApp/fileopener.cpp ../pavilionsApp/fileopener.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/QObject \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qobject.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qobjectdefs.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qnamespace.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qglobal.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qconfig.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qtcore-config.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qsystemdetection.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qprocessordetection.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qcompilerdetection.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qtypeinfo.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qsysinfo.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qlogging.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qflags.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qatomic.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qbasicatomic.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qgenericatomic.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qatomic_cxx11.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qatomic_msvc.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qglobalstatic.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qmutex.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qnumeric.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qversiontagging.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstring.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qchar.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qbytearray.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qrefcount.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qarraydata.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstringliteral.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstringalgorithms.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstringview.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstringbuilder.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qlist.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qalgorithms.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qiterator.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qhashfunctions.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qpair.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qbytearraylist.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstringlist.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qregexp.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstringmatcher.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qcoreevent.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qscopedpointer.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qmetatype.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qvarlengtharray.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qcontainerfwd.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qobject_impl.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/QProcess \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qprocess.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qiodevice.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qshareddata.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qhash.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/QDebug \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qdebug.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qmap.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qtextstream.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qlocale.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qvariant.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qvector.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qpoint.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qset.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qcontiguouscache.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qsharedpointer.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qsharedpointer_impl.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o fileopener.o ../pavilionsApp/fileopener.cpp
+
 main.o: ../pavilionsApp/main.cpp ../../../Qt5.12.12/5.12.12/gcc_64/include/QtGui/QGuiApplication \
 		../../../Qt5.12.12/5.12.12/gcc_64/include/QtGui/qguiapplication.h \
 		../../../Qt5.12.12/5.12.12/gcc_64/include/QtGui/qtguiglobal.h \
@@ -1265,19 +1556,91 @@ main.o: ../pavilionsApp/main.cpp ../../../Qt5.12.12/5.12.12/gcc_64/include/QtGui
 		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qdatastream.h \
 		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qline.h \
 		../../../Qt5.12.12/5.12.12/gcc_64/include/QtGui/qpainterpath.h \
+		../pavilionsApp/filemodel.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/QAbstractListModel \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qabstractitemmodel.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/QFileSystemWatcher \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qfilesystemwatcher.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/QDir \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qdir.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qfileinfo.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qfile.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qfiledevice.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/QFileInfoList \
+		../pavilionsApp/fileopener.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/QObject \
 		../pavilionsApp/scmodel.h \
 		../pavilionsApp/abstrucquerytmodel.h \
 		../../../Qt5.12.12/5.12.12/gcc_64/include/QtSql/QSqlQueryModel \
 		../../../Qt5.12.12/5.12.12/gcc_64/include/QtSql/qsqlquerymodel.h \
 		../../../Qt5.12.12/5.12.12/gcc_64/include/QtSql/qtsqlglobal.h \
 		../../../Qt5.12.12/5.12.12/gcc_64/include/QtSql/qtsql-config.h \
-		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qabstractitemmodel.h \
 		../../../Qt5.12.12/5.12.12/gcc_64/include/QtSql/qsqldatabase.h \
 		../../../Qt5.12.12/5.12.12/gcc_64/include/QtQml/QJSValue \
-		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/QObject \
 		../pavilionsApp/pavilionsmodel.h \
 		../pavilionsApp/citymodel.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../pavilionsApp/main.cpp
+
+odfcreator.o: ../pavilionsApp/odfcreator.cpp ../pavilionsApp/odfcreator.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/QObject \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qobject.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qobjectdefs.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qnamespace.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qglobal.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qconfig.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qtcore-config.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qsystemdetection.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qprocessordetection.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qcompilerdetection.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qtypeinfo.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qsysinfo.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qlogging.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qflags.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qatomic.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qbasicatomic.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qgenericatomic.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qatomic_cxx11.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qatomic_msvc.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qglobalstatic.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qmutex.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qnumeric.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qversiontagging.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstring.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qchar.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qbytearray.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qrefcount.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qarraydata.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstringliteral.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstringalgorithms.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstringview.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstringbuilder.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qlist.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qalgorithms.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qiterator.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qhashfunctions.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qpair.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qbytearraylist.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstringlist.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qregexp.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qstringmatcher.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qcoreevent.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qscopedpointer.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qmetatype.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qvarlengtharray.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qcontainerfwd.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qobject_impl.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/QCoreApplication \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qcoreapplication.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qeventloop.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/QProcess \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qprocess.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qiodevice.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qshareddata.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qhash.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o odfcreator.o ../pavilionsApp/odfcreator.cpp
 
 pavilionsmodel.o: ../pavilionsApp/pavilionsmodel.cpp ../pavilionsApp/pavilionsmodel.h \
 		../pavilionsApp/abstrucquerytmodel.h \
@@ -1447,6 +1810,12 @@ qrc_pics.o: qrc_pics.cpp
 
 moc_abstrucquerytmodel.o: moc_abstrucquerytmodel.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_abstrucquerytmodel.o moc_abstrucquerytmodel.cpp
+
+moc_filemodel.o: moc_filemodel.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_filemodel.o moc_filemodel.cpp
+
+moc_fileopener.o: moc_fileopener.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_fileopener.o moc_fileopener.cpp
 
 ####### Install
 

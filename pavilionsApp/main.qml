@@ -48,6 +48,10 @@ ApplicationWindow {
         visible: false
     }
 
+    DocumentPage {
+        id: page6
+    }
+
     function pagePush(view, page) {
         if (!view.push(page))
             view.pop(page);

@@ -2,6 +2,8 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <QIcon>
+#include "filemodel.h"
+#include "fileopener.h"
 #include "scmodel.h"
 #include "pavilionsmodel.h"
 #include "citymodel.h"
@@ -21,6 +23,8 @@ int main(int argc, char *argv[])
     PavilionsModel* pavilionModel = new PavilionsModel;
     PavilionsModel* rentedPavilionsModel = new PavilionsModel;
     CityModel* cityModel = new CityModel;
+    FileModel* fileModel = new FileModel;
+    FileOpener* opener = new FileOpener;
 
     scModel->setModelQuery("SELECT * FROM sc WHERE sc_status != 'Удален' ORDER BY name, sc_status");
     deletedSCModel->setModelQuery("SELECT * FROM sc WHERE sc_status = 'Удален' ORDER BY name, sc_status");
@@ -29,6 +33,7 @@ int main(int argc, char *argv[])
     rentedPavilionsModel->setModelQuery("SELECT pv.*, sc.sc_status FROM public.pavilions pv JOIN sc ON pv.sc_name = sc.name "
                                          "WHERE sc.sc_status != 'Удален' AND pav_status != 'Свободен'");
     cityModel->setModelQuery("SELECT 'Все' AS \"city\" UNION SELECT DISTINCT city FROM sc ORDER BY city");
+    fileModel->setDirectory("./RentContract");
 
     QQmlApplicationEngine engine;
     const QUrl url(QStringLiteral("qrc:/main.qml"));
@@ -43,6 +48,8 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("PavilionModel", pavilionModel);
     engine.rootContext()->setContextProperty("RentedPavilionModel", rentedPavilionsModel);
     engine.rootContext()->setContextProperty("CityModel", cityModel);
+    engine.rootContext()->setContextProperty("FileModel", fileModel);
+    engine.rootContext()->setContextProperty("FileOpener", opener);
 
     engine.load(url);
 

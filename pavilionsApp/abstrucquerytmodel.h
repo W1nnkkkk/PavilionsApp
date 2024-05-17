@@ -13,6 +13,7 @@ public:
     Q_INVOKABLE void setModelQuery(const QString& query);
     Q_INVOKABLE void setModelQuery(const QString& query, const QJSValue &binds, const QJSValue &values);
     Q_INVOKABLE bool setCustomQuery(const QString& query, const QJSValue &binds, const QJSValue &values);
+    Q_INVOKABLE bool setCustomQuery(const QString& query, const QJSValue &binds, const QJSValue &values, int haveFile);
 
     // QAbstractItemModel interface
 public:

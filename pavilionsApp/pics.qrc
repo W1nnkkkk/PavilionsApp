@@ -61,5 +61,7 @@
         <file>images/Icons/rentIcon.png</file>
         <file>images/Icons/noRentIcon.png</file>
         <file>images/Icons/mainIcon.png</file>
+        <file>images/Icons/documentIcon.png</file>
+        <file>images/Icons/file-icon.png</file>
     </qresource>
 </RCC>
