@@ -742,6 +742,7 @@ qrc_pics.cpp: ../pavilionsApp/pics.qrc \
 		../pavilionsApp/images/Icons/refreshIcon.png \
 		../pavilionsApp/images/Icons/No_icon.png \
 		../pavilionsApp/images/Icons/SCIcon.png \
+		../pavilionsApp/images/Icons/mainIcon.png \
 		../pavilionsApp/images/Icons/rentIcon.png \
 		../pavilionsApp/images/Icons/findIcon.png \
 		../pavilionsApp/images/Icons/pavilionsICon.png \
@@ -1246,6 +1247,24 @@ main.o: ../pavilionsApp/main.cpp ../../../Qt5.12.12/5.12.12/gcc_64/include/QtGui
 		../../../Qt5.12.12/5.12.12/gcc_64/include/QtQml/qqmlerror.h \
 		../../../Qt5.12.12/5.12.12/gcc_64/include/QtQml/QQmlContext \
 		../../../Qt5.12.12/5.12.12/gcc_64/include/QtQml/qqmlcontext.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtGui/QIcon \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtGui/qicon.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtGui/qpixmap.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtGui/qpaintdevice.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qrect.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qmargins.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtGui/qcolor.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtGui/qrgb.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtGui/qrgba64.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtGui/qimage.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtGui/qpixelformat.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtGui/qtransform.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtGui/qmatrix.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtGui/qpolygon.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtGui/qregion.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qdatastream.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qline.h \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtGui/qpainterpath.h \
 		../pavilionsApp/scmodel.h \
 		../pavilionsApp/abstrucquerytmodel.h \
 		../../../Qt5.12.12/5.12.12/gcc_64/include/QtSql/QSqlQueryModel \

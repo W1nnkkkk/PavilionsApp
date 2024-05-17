@@ -60,5 +60,6 @@
         <file>images/Icons/findIcon.png</file>
         <file>images/Icons/rentIcon.png</file>
         <file>images/Icons/noRentIcon.png</file>
+        <file>images/Icons/mainIcon.png</file>
     </qresource>
 </RCC>

@@ -68,11 +68,13 @@ Rectangle {
             ColumnLayout {
                 RowLayout {
                     Layout.fillWidth: true
+                    spacing: 10
                     Text {
                         id: coefText
                         text: "Коофицент добавочной стоимости:"
                     }
                     Item {
+                        id: widthItem
                         width: coefText.width - countPavBox.width
                     }
                     SpinBox {
@@ -103,11 +105,15 @@ Rectangle {
 
                 // Количество павильонов
                 RowLayout {
+                    spacing: 10
                     Layout.fillWidth: true
                     Text {
                         id: countText
                         text: "Количество павильонов:"
                         Layout.fillWidth: true
+                    }
+                    Item {
+                        width: widthItem.width - 10
                     }
                     SpinBox {
                         id: countPavBox
@@ -116,19 +122,20 @@ Rectangle {
                         stepSize: 1
                         editable: true
                         Layout.fillWidth: true
-                        value: 1
+                        value: 0
                     }
                 }
 
                 // Количество этажей
                 RowLayout {
+                    spacing: 10
                     Layout.fillWidth: true
                     Text {
                         id: countFloorText
                         text: "Количество этажей:"
                     }
                     Item {
-                        width: countFloorText.width - countPavBox.width
+                        width: (countFloorText.width - countPavBox.width) + 5
                     }
                     SpinBox {
                         id: countFloorsBox

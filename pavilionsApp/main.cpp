@@ -1,6 +1,7 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
+#include <QIcon>
 #include "scmodel.h"
 #include "pavilionsmodel.h"
 #include "citymodel.h"
@@ -12,6 +13,8 @@ int main(int argc, char *argv[])
 #endif
 
     QGuiApplication app(argc, argv);
+    //app.setWindowIcon(QIcon("qrc:/Images/images/Icons/mainIcon.png"));
+    QGuiApplication::setWindowIcon(QIcon(":/Images/images/Icons/mainIcon.png"));
 
     SCModel* scModel = new SCModel;
     SCModel* deletedSCModel = new SCModel;

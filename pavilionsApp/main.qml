@@ -10,6 +10,7 @@ ApplicationWindow {
     visible: true
     title: qsTr("Pavilions App")
 
+
     property string backgroundColor: "steelblue"
 
     color: backgroundColor

@@ -79,6 +79,9 @@ Item {
             }
         }
     }
+    Item {
+        height: 5
+    }
     Rectangle {
         color: backgroundColor // Цвет фона
         width: parent.width
