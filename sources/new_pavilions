@@ -5,7 +5,7 @@
 -- Dumped from database version 14.11 (Ubuntu 14.11-0ubuntu0.22.04.1)
 -- Dumped by pg_dump version 14.11 (Ubuntu 14.11-0ubuntu0.22.04.1)
 
--- Started on 2024-05-16 20:20:45 MSK
+-- Started on 2024-05-17 19:23:45 MSK
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -74,6 +74,31 @@ $$;
 ALTER PROCEDURE public.pavilions_rent(IN id_ten integer, IN sc_nam character varying, IN id_emp integer, IN pav_n character varying, IN pav_stat character varying, IN rent_pav_stat character varying) OWNER TO postgres;
 
 --
+-- TOC entry 228 (class 1255 OID 16447)
+-- Name: pavilions_rent(integer, character varying, integer, character varying, character varying, character varying, date); Type: PROCEDURE; Schema: public; Owner: postgres
+--
+
+CREATE PROCEDURE public.pavilions_rent(IN id_ten integer, IN sc_nam character varying, IN id_emp integer, IN pav_n character varying, IN pav_stat character varying, IN rent_pav_stat character varying, IN date_e date)
+    LANGUAGE plpgsql
+    AS $$
+DECLARE 
+	id_re integer := (SELECT id_rent FROM rent ORDER BY id_rent DESC LIMIT 1) + 1;
+	date_b date := CURRENT_DATE;
+BEGIN 
+	UPDATE pavilions
+	SET pav_status = pav_stat
+	WHERE sc_name = sc_nam AND pavilion_num = pav_n;
+
+	INSERT INTO public.rent(
+	id_rent, id_tenat, sc_name, id_employee, pavilion_num, pav_status, date_begin, date_end)
+	VALUES (id_re, id_ten, sc_nam, id_emp, pav_n, rent_pav_stat, date_b, date_e); 
+END;
+$$;
+
+
+ALTER PROCEDURE public.pavilions_rent(IN id_ten integer, IN sc_nam character varying, IN id_emp integer, IN pav_n character varying, IN pav_stat character varying, IN rent_pav_stat character varying, IN date_e date) OWNER TO postgres;
+
+--
 -- TOC entry 219 (class 1255 OID 16417)
 -- Name: pavilions_rent_wrapper(integer, character varying, integer, character varying, character varying, character varying); Type: FUNCTION; Schema: public; Owner: postgres
 --
@@ -89,6 +114,25 @@ $$;
 
 
 ALTER FUNCTION public.pavilions_rent_wrapper(id_ten integer, sc_nam character varying, id_emp integer, pav_n character varying, pav_stat character varying, rent_pav_stat character varying) OWNER TO postgres;
+
+--
+-- TOC entry 229 (class 1255 OID 16448)
+-- Name: pavilions_rent_wrapper(character varying, character varying, character varying, character varying, character varying, character varying, date); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.pavilions_rent_wrapper(ten character varying, sc_nam character varying, emp character varying, pav_n character varying, pav_stat character varying, rent_pav_stat character varying, date_e date) RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+DECLARE id_ten integer := (SELECT id FROM tenats WHERE office_name = ten LIMIT 1);
+		id_emp integer := (SELECT id FROM employee WHERE login = emp LIMIT 1);
+BEGIN 
+	CALL pavilions_rent(id_ten, sc_nam, id_emp, pav_n, pav_stat, rent_pav_stat, date_e);
+	RETURN 0; 
+END;
+$$;
+
+
+ALTER FUNCTION public.pavilions_rent_wrapper(ten character varying, sc_nam character varying, emp character varying, pav_n character varying, pav_stat character varying, rent_pav_stat character varying, date_e date) OWNER TO postgres;
 
 SET default_tablespace = '';
 
@@ -187,7 +231,7 @@ CREATE TABLE public.tenats (
 ALTER TABLE public.tenats OWNER TO postgres;
 
 --
--- TOC entry 3378 (class 0 OID 16395)
+-- TOC entry 3380 (class 0 OID 16395)
 -- Dependencies: 211
 -- Data for Name: employee; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -207,7 +251,7 @@ INSERT INTO public.employee (login, password, role, telephone_number, gender, id
 
 
 --
--- TOC entry 3377 (class 0 OID 16390)
+-- TOC entry 3379 (class 0 OID 16390)
 -- Dependencies: 210
 -- Data for Name: pavilions; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -242,12 +286,10 @@ INSERT INTO public.pavilions (sc_name, pavilion_num, floor, pav_status, square, 
 INSERT INTO public.pavilions (sc_name, pavilion_num, floor, pav_status, square, cost_per_square, value_added_coof, city) VALUES ('Весна', '2Б', 1, 'Удален', 176, 1673, 1.7, 'Нижний Новгород');
 INSERT INTO public.pavilions (sc_name, pavilion_num, floor, pav_status, square, cost_per_square, value_added_coof, city) VALUES ('Гудзон', '41А', 1, 'Свободен', 108, 344, 0, 'Екатеринбург');
 INSERT INTO public.pavilions (sc_name, pavilion_num, floor, pav_status, square, cost_per_square, value_added_coof, city) VALUES ('Калейдоскоп', '16Г', 2, 'Арендован', 125, 1037, 1.3, 'Новосибирск');
-INSERT INTO public.pavilions (sc_name, pavilion_num, floor, pav_status, square, cost_per_square, value_added_coof, city) VALUES ('Золотой Вавилон Ростокино', '13Б', 2, 'Свободен', 161.5, 2775.7, 0.4, 'Екатеринбург');
 INSERT INTO public.pavilions (sc_name, pavilion_num, floor, pav_status, square, cost_per_square, value_added_coof, city) VALUES ('Хорошо', '83Г', 2, 'Арендован', 85.5, 4584, 0.3, 'Ростов-на-Дону ');
 INSERT INTO public.pavilions (sc_name, pavilion_num, floor, pav_status, square, cost_per_square, value_added_coof, city) VALUES ('Щука', '9Г', 1, 'Забронировано', 131, 2477, 1.5, 'Нижний Новгород');
 INSERT INTO public.pavilions (sc_name, pavilion_num, floor, pav_status, square, cost_per_square, value_added_coof, city) VALUES ('Атриум', '49Г', 1, 'Арендован', 164, 2728, 0.9, 'Казань');
 INSERT INTO public.pavilions (sc_name, pavilion_num, floor, pav_status, square, cost_per_square, value_added_coof, city) VALUES ('Принц Плаза', '1Г', 1, 'Удален', 157, 1963, 1.6, 'Самара');
-INSERT INTO public.pavilions (sc_name, pavilion_num, floor, pav_status, square, cost_per_square, value_added_coof, city) VALUES ('Золотой Вавилон Ростокино', '37А', 3, 'Арендован', 187, 3173, 0.3, 'Екатеринбург');
 INSERT INTO public.pavilions (sc_name, pavilion_num, floor, pav_status, square, cost_per_square, value_added_coof, city) VALUES ('Золотой Вавилон Ростокино', '38Г', 4, 'Арендован', 97, 1364, 0.5, 'Екатеринбург');
 INSERT INTO public.pavilions (sc_name, pavilion_num, floor, pav_status, square, cost_per_square, value_added_coof, city) VALUES ('Реутов Парк', '27В', 1, 'Забронировано', 96, 3134, 0.1, 'Ростов-на-Дону ');
 INSERT INTO public.pavilions (sc_name, pavilion_num, floor, pav_status, square, cost_per_square, value_added_coof, city) VALUES ('ЕвроПарк', '67Б', 1, 'Удален', 55, 4442, 0.8, 'Новосибирск');
@@ -262,10 +304,12 @@ INSERT INTO public.pavilions (sc_name, pavilion_num, floor, pav_status, square, 
 INSERT INTO public.pavilions (sc_name, pavilion_num, floor, pav_status, square, cost_per_square, value_added_coof, city) VALUES ('Фестиваль', '65Б', 4, 'Удален', 60, 3052, 0.6, 'Новосибирск');
 INSERT INTO public.pavilions (sc_name, pavilion_num, floor, pav_status, square, cost_per_square, value_added_coof, city) VALUES ('Времена Года', '26А', 1, 'Свободен', 95, 670, 1.7, 'Екатеринбург');
 INSERT INTO public.pavilions (sc_name, pavilion_num, floor, pav_status, square, cost_per_square, value_added_coof, city) VALUES ('Времена Года', '53В', 3, 'Арендован', 132, 510, 1.2, 'Екатеринбург');
+INSERT INTO public.pavilions (sc_name, pavilion_num, floor, pav_status, square, cost_per_square, value_added_coof, city) VALUES ('Золотой Вавилон Ростокино', '13Б', 2, 'Арендован', 161.5, 2775.7, 0.4, 'Екатеринбург');
+INSERT INTO public.pavilions (sc_name, pavilion_num, floor, pav_status, square, cost_per_square, value_added_coof, city) VALUES ('Золотой Вавилон Ростокино', '37А', 3, 'Свободен', 187, 3173, 0.3, 'Екатеринбург');
 
 
 --
--- TOC entry 3380 (class 0 OID 16407)
+-- TOC entry 3382 (class 0 OID 16407)
 -- Dependencies: 213
 -- Data for Name: rent; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -312,10 +356,13 @@ INSERT INTO public.rent (id_rent, id_tenat, sc_name, id_employee, pavilion_num, 
 INSERT INTO public.rent (id_rent, id_tenat, sc_name, id_employee, pavilion_num, pav_status, date_begin, date_end) VALUES (40, 2, 'Времена Года ', 11, '26А', 'Открыт', '2019-08-19', '2020-09-02');
 INSERT INTO public.rent (id_rent, id_tenat, sc_name, id_employee, pavilion_num, pav_status, date_begin, date_end) VALUES (41, 4, 'Времена Года ', 7, '53В', 'Закрыт', '2018-09-20', '2019-02-12');
 INSERT INTO public.rent (id_rent, id_tenat, sc_name, id_employee, pavilion_num, pav_status, date_begin, date_end) VALUES (42, 12, 'Рио', 32, '61А', 'Ожидание', '2024-05-16', '2024-06-16');
+INSERT INTO public.rent (id_rent, id_tenat, sc_name, id_employee, pavilion_num, pav_status, date_begin, date_end) VALUES (43, 11, 'Золотой Вавилон Ростокино', 11, '13Б', 'Ожидание', '2024-05-17', '2024-06-17');
+INSERT INTO public.rent (id_rent, id_tenat, sc_name, id_employee, pavilion_num, pav_status, date_begin, date_end) VALUES (44, 1, 'Золотой Вавилон Ростокино', 1, '37А', 'Ожидание', '2024-05-17', '2024-06-27');
+INSERT INTO public.rent (id_rent, id_tenat, sc_name, id_employee, pavilion_num, pav_status, date_begin, date_end) VALUES (45, 4, 'Золотой Вавилон Ростокино', 2, '37А', 'Ожидание', '2024-05-17', '2024-06-20');
 
 
 --
--- TOC entry 3376 (class 0 OID 16385)
+-- TOC entry 3378 (class 0 OID 16385)
 -- Dependencies: 209
 -- Data for Name: sc; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -373,7 +420,7 @@ INSERT INTO public.sc (name, sc_status, pavilions_count, city, cost, value_added
 
 
 --
--- TOC entry 3379 (class 0 OID 16402)
+-- TOC entry 3381 (class 0 OID 16402)
 -- Dependencies: 212
 -- Data for Name: tenats; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -386,7 +433,7 @@ INSERT INTO public.tenats (id, office_name, telephone_number, adress) VALUES (5,
 
 
 --
--- TOC entry 3232 (class 2606 OID 16401)
+-- TOC entry 3234 (class 2606 OID 16401)
 -- Name: employee employee_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -395,7 +442,7 @@ ALTER TABLE ONLY public.employee
 
 
 --
--- TOC entry 3230 (class 2606 OID 16394)
+-- TOC entry 3232 (class 2606 OID 16394)
 -- Name: pavilions pavilions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -404,7 +451,7 @@ ALTER TABLE ONLY public.pavilions
 
 
 --
--- TOC entry 3236 (class 2606 OID 16411)
+-- TOC entry 3238 (class 2606 OID 16411)
 -- Name: rent rent_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -413,7 +460,7 @@ ALTER TABLE ONLY public.rent
 
 
 --
--- TOC entry 3228 (class 2606 OID 16389)
+-- TOC entry 3230 (class 2606 OID 16389)
 -- Name: sc sc_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -422,7 +469,7 @@ ALTER TABLE ONLY public.sc
 
 
 --
--- TOC entry 3234 (class 2606 OID 16406)
+-- TOC entry 3236 (class 2606 OID 16406)
 -- Name: tenats tenats_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -430,7 +477,7 @@ ALTER TABLE ONLY public.tenats
     ADD CONSTRAINT tenats_pkey PRIMARY KEY (id);
 
 
--- Completed on 2024-05-16 20:20:46 MSK
+-- Completed on 2024-05-17 19:23:45 MSK
 
 --
 -- PostgreSQL database dump complete
