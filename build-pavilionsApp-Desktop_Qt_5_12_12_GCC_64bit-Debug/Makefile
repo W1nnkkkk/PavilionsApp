@@ -16,7 +16,7 @@ CC            = gcc
 CXX           = g++
 DEFINES       = -DQT_QML_DEBUG -DQT_QUICK_LIB -DQT_GUI_LIB -DQT_QML_LIB -DQT_NETWORK_LIB -DQT_SQL_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -g -Wall -W -D_REENTRANT -fPIC $(DEFINES)
-CXXFLAGS      = -pipe -g -std=gnu++11 -Wall -W -D_REENTRANT -fPIC $(DEFINES)
+CXXFLAGS      = -pipe -g -std=gnu++1z -Wall -W -D_REENTRANT -fPIC $(DEFINES)
 INCPATH       = -I../pavilionsApp -I. -I../../../Qt5.12.12/5.12.12/gcc_64/include -I../../../Qt5.12.12/5.12.12/gcc_64/include/QtQuick -I../../../Qt5.12.12/5.12.12/gcc_64/include/QtGui -I../../../Qt5.12.12/5.12.12/gcc_64/include/QtQml -I../../../Qt5.12.12/5.12.12/gcc_64/include/QtNetwork -I../../../Qt5.12.12/5.12.12/gcc_64/include/QtSql -I../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore -I. -isystem /usr/include/libdrm -I../../../Qt5.12.12/5.12.12/gcc_64/mkspecs/linux-g++
 QMAKE         = /home/kirill/Qt5.12.12/5.12.12/gcc_64/bin/qmake
 DEL_FILE      = rm -f
@@ -823,7 +823,7 @@ compiler_moc_predefs_make_all: moc_predefs.h
 compiler_moc_predefs_clean:
 	-$(DEL_FILE) moc_predefs.h
 moc_predefs.h: ../../../Qt5.12.12/5.12.12/gcc_64/mkspecs/features/data/dummy.cpp
-	g++ -pipe -g -std=gnu++11 -Wall -W -dM -E -o moc_predefs.h ../../../Qt5.12.12/5.12.12/gcc_64/mkspecs/features/data/dummy.cpp
+	g++ -pipe -g -std=gnu++1z -Wall -W -dM -E -o moc_predefs.h ../../../Qt5.12.12/5.12.12/gcc_64/mkspecs/features/data/dummy.cpp
 
 compiler_moc_header_make_all: moc_abstrucquerytmodel.cpp moc_filemodel.cpp moc_fileopener.cpp
 compiler_moc_header_clean:
@@ -1371,7 +1371,8 @@ filemodel.o: ../pavilionsApp/filemodel.cpp ../pavilionsApp/filemodel.h \
 		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qfileinfo.h \
 		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qfile.h \
 		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/qfiledevice.h \
-		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/QFileInfoList
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/QFileInfoList \
+		../../../Qt5.12.12/5.12.12/gcc_64/include/QtCore/QDebug
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o filemodel.o ../pavilionsApp/filemodel.cpp
 
 fileopener.o: ../pavilionsApp/fileopener.cpp ../pavilionsApp/fileopener.h \

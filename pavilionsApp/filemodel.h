@@ -33,7 +33,8 @@ private:
     QFileSystemWatcher fileWatcher;
     QFileInfoList fileList;
 
-    void updateFileList();
+public:
+    Q_INVOKABLE void updateFileList();
 };
 
 #endif // FILEMODEL_H

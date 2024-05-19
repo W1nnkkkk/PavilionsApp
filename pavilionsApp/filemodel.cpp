@@ -1,4 +1,5 @@
 #include "filemodel.h"
+#include <QDebug>
 
 FileModel::FileModel(QObject *parent)
     : QAbstractListModel(parent)
@@ -65,15 +66,21 @@ void FileModel::fileChanged(const QString &path)
 
 void FileModel::updateFileList()
 {
+    beginResetModel();
+
     fileList = directory.entryInfoList(QDir::NoDotAndDotDot | QDir::AllEntries);
     QStringList currentPaths = fileWatcher.files();
+
     if (!currentPaths.isEmpty()) {
         fileWatcher.removePaths(currentPaths);
     }
+
     for (const QFileInfo &fileInfo : fileList) {
         if (fileInfo.isFile()) {
             fileWatcher.addPath(fileInfo.absoluteFilePath());
         }
     }
-    emit dataChanged(createIndex(0, 0), createIndex(fileList.size() - 1, 0));
+
+    endResetModel();
+    //emit dataChanged(createIndex(0, 0), createIndex(fileList.size() - 1, 0));
 }

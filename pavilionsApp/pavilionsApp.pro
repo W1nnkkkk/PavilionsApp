@@ -1,6 +1,6 @@
 QT += quick core sql
 
-CONFIG += c++11
+CONFIG += c++17
 
 LIBS += -lzip
 # You can make your code fail to compile if it uses deprecated APIs.
