@@ -66,7 +66,6 @@ void AbstrucQuerytModel::setModelQuery(const QString &query, const QJSValue &bin
         qDebug() << "Error setting query:" << lastError().text();
     }
     else {
-        qDebug() << req.lastQuery();
         qDebug() << "Sucess! : " << rowCount();
     }
 }
